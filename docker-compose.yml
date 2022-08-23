@@ -29,8 +29,42 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - app_data:/var/www/html
+
+  elasticsearch:
+    # DOCKER_TAG will be provided by the .env-file
+    image: r0wi/elasticsearch-nextcloud-docker:7.6.1
+    container_name: elasticsearch_nc
+    restart: always
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      # Use named volume because of permission problems
+      - elasticsearch_data:/usr/share/elasticsearch/data 
+    ports:
+      - 127.0.0.1:9200:9200
+  db:
+    image: mariadb:10.5
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
 volumes:
   document_data:
   document_log:
   app_data:
   mysql_data:
+  elasticsearch_data:
+  db:
+
