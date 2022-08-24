@@ -6,7 +6,10 @@
   - run ```./set_configuration.sh```
 ##### Trusted domains
   
-  - go to container "app-server", open "config/config.php" and add your ip to trusted_domains (172.22.115.221), restart the container
+  - go to container "app-server",
+  - open "config/config.php" and add your ip to trusted_domains (172.22.115.221)
+  - run ```apt-get install smbclient```
+  - restart the container
 ##### Install apps
 
   - go to nextcloud, apps, and install "ONLYOFFICE" and "Full text search", "Full text search - Elasticsearch Platform", "Full text search - Files"
