@@ -33,7 +33,7 @@ services:
       - 88:80
       - 443:443
     volumes:
-      - /home/dimka/Documents/Projects/nextcloud-with-apps/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf
       - app_data:/var/www/html
 
   elasticsearch:
