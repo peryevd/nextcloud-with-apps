@@ -9,7 +9,7 @@ do
    echo "wait docker start"
 done
 
-docker exec -u www-data app-server /bin/bash -c 'php occ  maintenance:install --admin-user "admin" --admin-pass "AnswerPRO!"'
+docker exec -u www-data app-server /bin/bash -c 'php occ  maintenance:install --admin-user "admin" --admin-pass "admin"'
 docker exec -u www-data app-server php occ --no-warnings config:system:get trusted_domains >> trusted_domain.tmp
 
 if ! grep -q "nginx-server" trusted_domain.tmp; then
