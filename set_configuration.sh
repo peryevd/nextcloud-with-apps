@@ -2,10 +2,14 @@
 set -x
 
 docker-compose up -d
-sleep 20
-# docker exec -u www-data app-server /bin/bash -c "export OC_PASS=AnswerPRO! && php occ user:add --password-from-env --display-name='Administrator' --group='admins' admin"
-docker exec -u www-data app-server /bin/bash -c 'php occ  maintenance:install --admin-user "admin" --admin-pass "AnswerPRO!"'
 
+while ( ! curl -sSf http://localhost:88/ > /dev/null  )
+do 
+   sleep 1
+   echo "wait docker start"
+done
+
+docker exec -u www-data app-server /bin/bash -c 'php occ  maintenance:install --admin-user "admin" --admin-pass "AnswerPRO!"'
 docker exec -u www-data app-server php occ --no-warnings config:system:get trusted_domains >> trusted_domain.tmp
 
 if ! grep -q "nginx-server" trusted_domain.tmp; then
